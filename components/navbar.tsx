@@ -1,3 +1,4 @@
+"use client";
 import {
   Navbar as NextUINavbar,
   NavbarContent,
@@ -6,19 +7,23 @@ import {
 } from "@nextui-org/navbar";
 import { Button } from "@nextui-org/button";
 import NextLink from "next/link";
-
-import { ThemeSwitch } from "@/components/theme-switch";
-import { Logo } from "@/components/icons";
 import Link from "next/link";
 
+import Logo from "./logo";
+
+import { ThemeSwitch } from "@/components/theme-switch";
+import useAuth from "@/hooks/useAuth";
+
 export const Navbar = () => {
+  const decodedUser = useAuth();
+  console.log(decodedUser);
+  
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
             <Logo />
-            <p className="font-bold text-inherit">Easy Stay</p>
           </NextLink>
         </NavbarBrand>
       </NavbarContent>

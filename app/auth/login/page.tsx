@@ -42,9 +42,12 @@ const Login = () => {
       const { data } = await axiosInstance.post(`/auth/login`, dataForBackend);
 
       console.log(data);
+      
 
       // Check if the response is successful
+      
       if (data.success) {
+        localStorage.setItem("token" , data?.data?.accessToken)
         toast.success("User logged in successfully!");
         await router.push("/");
       } else {
