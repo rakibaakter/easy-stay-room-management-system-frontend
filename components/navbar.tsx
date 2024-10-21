@@ -13,11 +13,33 @@ import Logo from "./logo";
 
 import { ThemeSwitch } from "@/components/theme-switch";
 import useAuth from "@/hooks/useAuth";
+import Swal from "sweetalert2";
 
 export const Navbar = () => {
   const decodedUser = useAuth();
-  console.log(decodedUser);
-  
+
+  const handleLogOut = () => {
+    Swal.fire({
+      title: "Do you want to log out?",
+      background: "#333",
+      color: "#fff",
+      showDenyButton: true,
+      confirmButtonText: "Log Out Now!",
+      denyButtonText: `Cancel`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        localStorage.removeItem("token");
+        Swal.fire({
+          background: "#333",
+          color: "#fff",
+          title: "User Logged Out Successfully!",
+          icon: "success",
+        });
+      }
+    });
+  };
+
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
@@ -36,9 +58,13 @@ export const Navbar = () => {
           <ThemeSwitch />
         </NavbarItem>
         <NavbarItem className="hidden md:flex">
-          <Link href="/auth/login">
-            <Button variant="bordered">Login</Button>
-          </Link>
+          {decodedUser ? (
+              <Button onClick={handleLogOut} variant="bordered">Log Out</Button>
+          ) : (
+            <Link href="/auth/login">
+              <Button variant="bordered">Login</Button>
+            </Link>
+          )}
         </NavbarItem>
       </NavbarContent>
 
