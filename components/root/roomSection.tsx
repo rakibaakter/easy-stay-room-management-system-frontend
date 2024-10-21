@@ -1,15 +1,16 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Card, CardHeader, CardBody, Image } from "@nextui-org/react";
+import { Card, CardHeader, CardBody } from "@nextui-org/react";
 import { Button } from "@nextui-org/button";
-import axiosInstance from "@/lib/axiosInstance";
 import Link from "next/link";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 
+import axiosInstance from "@/lib/axiosInstance";
+import { TRoomResponse } from "@/types/room.response.types";
 
 const RoomSection = () => {
-  const [rooms, setRooms] = useState([]);
-  const [showRooms, setShowRooms] = useState([]);
+  const [rooms, setRooms] = useState<TRoomResponse[] | []>([]);
+  const [showRooms, setShowRooms] = useState<TRoomResponse[] | []>([]);
   const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
@@ -18,6 +19,7 @@ const RoomSection = () => {
         const { data } = await axiosInstance.get("/rooms");
 
         const roomData = data?.data || [];
+
         setRooms(roomData);
         setShowRooms(roomData.slice(0, 8)); // Initially showing the first 4 rooms
       } catch (error) {
@@ -51,23 +53,33 @@ const RoomSection = () => {
       {/* Room data */}
       <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {showRooms?.map((room) => (
-          <Card key={room._id} className="shadow-md">
+          <Card key={room?._id} className="shadow-md">
             <CardHeader className="w-full">
               <img
-                alt={room.title}
+                alt={room?.title}
                 className="w-full object-cover rounded-xl h-[160px] md:h-[220px]"
-                src={room.picture}
+                src={room?.picture}
                 width={270}
               />
             </CardHeader>
             <CardBody className="overflow-visible py-2">
-              <h4 className="font-bold text-large">{room.title.length > 24 ? `${room.title.slice(0, 24)}...` : room.title}</h4>
-              <p className="text-tiny">Rent: ${room.rent}</p>
+              <h4 className="font-bold text-large">
+                {room?.title.length > 24
+                  ? `${room?.title.slice(0, 24)}...`
+                  : room?.title}
+              </h4>
+              <p className="text-tiny">Rent: ${room?.rent}</p>
               <small className="text-default-500">
-                Facilities: {room.facilities.join(", ")}
+                Facilities: {room?.facilities.join(", ")}
               </small>
-              <Link href="/" className="flex justify-end ">
-                <Button variant="light" color="success" className="flex items-center"><p>Details</p> <MdKeyboardDoubleArrowRight/></Button>
+              <Link className="flex justify-end " href="/">
+                <Button
+                  className="flex items-center"
+                  color="success"
+                  variant="light"
+                >
+                  <p>Details</p> <MdKeyboardDoubleArrowRight />
+                </Button>
               </Link>
             </CardBody>
           </Card>
@@ -76,7 +88,7 @@ const RoomSection = () => {
 
       {rooms.length > 4 && (
         <div className="mt-8">
-          <Button variant="flat" color="success" onClick={handleToggle}>
+          <Button color="success" variant="flat" onClick={handleToggle}>
             {showAll ? "Show Less" : "Show All"}
           </Button>
         </div>

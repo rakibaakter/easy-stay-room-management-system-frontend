@@ -42,12 +42,11 @@ const Login = () => {
       const { data } = await axiosInstance.post(`/auth/login`, dataForBackend);
 
       console.log(data);
-      
 
       // Check if the response is successful
-      
+
       if (data.success) {
-        localStorage.setItem("token" , data?.data?.accessToken)
+        localStorage.setItem("token", data?.data?.accessToken);
         toast.success("User logged in successfully!");
         await router.push("/");
       } else {
@@ -66,7 +65,7 @@ const Login = () => {
       </CardHeader>
 
       <CardBody className="px-6 py-5">
-        <Toaster position="top-center" theme="dark"/>
+        <Toaster position="top-center" theme="dark" />
         <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
           <Input
             label="Email"

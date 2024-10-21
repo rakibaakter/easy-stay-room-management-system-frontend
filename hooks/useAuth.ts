@@ -16,7 +16,6 @@ const useAuth = () => {
   }, []);
 
   return decodedUser;
-
 };
 
 export default useAuth;

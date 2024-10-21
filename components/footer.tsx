@@ -9,7 +9,7 @@ const Footer = () => {
           Akter
         </h2>
         <div>
-        <Logo/>
+          <Logo />
         </div>
       </div>
     </div>
