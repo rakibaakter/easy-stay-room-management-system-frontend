@@ -4,7 +4,7 @@ import Image from "next/image";
 const Root = () => {
   return (
     <div className=" space-y-16">
-      <Image src={homeBanner} alt="stay easy banner" className="h-[540px] w-full" />
+      <Image src={homeBanner} alt="stay easy banner" className="h-[260px] md:h-[540px] w-full" />
       <RoomSection />
     </div>
   );
