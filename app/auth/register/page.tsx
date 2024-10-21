@@ -6,23 +6,21 @@ import Link from "next/link";
 import React from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { toast, Toaster } from "sonner";
 
-interface IFormInput {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
+import { TFormInput, TUserCreationData } from "@/types/registration.types";
+import axiosInstance from "@/lib/axiosInstance";
 
 const Register = () => {
+  const router = useRouter();
+
   const [isVisiblePassword, setIsVisiblePassword] = React.useState(false);
   const [isVisibleConfirm, setIsVisibleConfirm] = React.useState(false);
 
   const togglePasswordVisibility = () =>
     setIsVisiblePassword(!isVisiblePassword);
-  const toggleConfirmVisibility = () =>
-    setIsVisibleConfirm(!isVisibleConfirm);
+  const toggleConfirmVisibility = () => setIsVisibleConfirm(!isVisibleConfirm);
 
   // submission
   const {
@@ -30,10 +28,41 @@ const Register = () => {
     formState: { errors },
     handleSubmit,
     watch,
-  } = useForm<IFormInput>();
-  const onSubmit = (data: IFormInput) => console.log(data);
-
+  } = useForm<TFormInput>();
   const password = watch("password");
+
+  const onSubmit = async (user: TFormInput) => {
+    try {
+      const dataForBackend: TUserCreationData = {
+        name: {
+          firstName: user.firstName,
+          lastName: user.lastName,
+        },
+        email: user.email,
+        password: user.password,
+      };
+      const { data } = await axiosInstance.post(
+        `/users/create-user`,
+        dataForBackend,
+      );
+
+      console.log(data);
+
+      // Check if the response is successful
+      if (data.success) {
+        toast.success("User has been created");
+        await router.push("/auth/login");
+      } else {
+        toast.error("User creation failed:", data.message);
+      }
+    } catch (error: any) {
+      toast.error("Something went wrong. Please try again!");
+      console.log(
+        "An error occurred during user creation:",
+        error.response.data.message as string,
+      );
+    }
+  };
 
   return (
     <Card className="w-full max-w-2xl mx-auto">
@@ -42,6 +71,7 @@ const Register = () => {
       </CardHeader>
 
       <CardBody className="px-6 py-5">
+        <Toaster position="top-center" theme="dark" />
         <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
           {/* name */}
           <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
@@ -108,7 +138,6 @@ const Register = () => {
               </button>
             }
             label="Password"
-            name="password"
             type={isVisiblePassword ? "text" : "password"}
             {...register("password", {
               required: "Password is required",
@@ -141,7 +170,6 @@ const Register = () => {
               </button>
             }
             label="Confirm password"
-            name="confirmPassword"
             type={isVisibleConfirm ? "text" : "password"}
             {...register("confirmPassword", {
               required: "Please confirm your password",
