@@ -72,7 +72,7 @@ const RoomDetails = ({ params }) => {
       room: room?._id,
     };
 
-    console.log("Booking Data: ", bookingData);
+    // console.log("Booking Data: ", bookingData);
     try {
       //  send bookingData to the backend here via an API call.
       const response = await axiosInstance.post('/bookings/create-booking', bookingData);

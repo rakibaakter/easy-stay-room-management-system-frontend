@@ -8,15 +8,32 @@ import {
 import { Button } from "@nextui-org/button";
 import NextLink from "next/link";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import Logo from "./logo";
 
 import { ThemeSwitch } from "@/components/theme-switch";
 import useAuth from "@/hooks/useAuth";
 import logout from "@/utils/logout";
+import getLoggedInUser from "@/utils/getLoggedInUser";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, User } from "@nextui-org/react";
 
 export const Navbar = () => {
+  const [user, setUser] = useState(null);
   const decodedUser = useAuth();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const data = await getLoggedInUser(decodedUser?.id);
+
+      setUser(data);
+    };
+
+    fetchUser();
+  }, [decodedUser]);
+
+  // const user = getLoggedInUser(decodedUser?.id);
+  console.log(user);
 
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
@@ -37,9 +54,27 @@ export const Navbar = () => {
         </NavbarItem>
         <NavbarItem className="hidden md:flex">
           {decodedUser ? (
-            <Button variant="bordered" onClick={() => logout()}>
-              Log Out
-            </Button>
+            <Dropdown>
+            <DropdownTrigger>
+              <Button variant="light">
+                <User
+                description={decodedUser?.userEmail}
+                name={user?.fullName}
+              />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              aria-label="Action event example" 
+              onAction={(key) => alert(key)}
+            >
+              <DropdownItem><Link href="/dashboard">Dashboard</Link></DropdownItem>
+              <DropdownItem>
+              <Button variant="light" color="danger" onClick={() => logout()}>
+               Log Out
+             </Button>
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
           ) : (
             <Link href="/auth/login">
               <Button variant="bordered">Login</Button>
