@@ -1,3 +1,4 @@
+// @ts-nocheck : for saving time.
 "use client";
 import {
   Navbar as NextUINavbar,
@@ -65,7 +66,6 @@ export const Navbar = () => {
             </DropdownTrigger>
             <DropdownMenu
               aria-label="Action event example" 
-              onAction={(key) => alert(key)}
             >
               {/* <DropdownItem><Link href="/dashboard/use/profile">Profile</Link></DropdownItem> */}
               

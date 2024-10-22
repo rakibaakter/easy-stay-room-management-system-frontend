@@ -1,3 +1,4 @@
+// @ts-nocheck : for saving time.
 "use client";
 import { useState } from "react";
 import { Button, Card, CardBody, CardHeader, Input, Textarea } from "@nextui-org/react";

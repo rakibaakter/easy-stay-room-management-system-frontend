@@ -39,7 +39,7 @@ const RoomDetails = ({ params }) => {
     if (!decodedUser) {
       // Only push to login if room ID is available
       if (room?._id) {
-        router.push(`/auth/login?redirect=${room._id}`);
+        router.push(`/auth/login?redirect=/rooms/${room._id}`);
       } else {
         console.log("Room data is not loaded yet");
       }

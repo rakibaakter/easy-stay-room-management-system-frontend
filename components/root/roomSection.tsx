@@ -72,7 +72,7 @@ const RoomSection = () => {
               <small className="text-default-500">
                 Facilities: {room?.facilities.join(", ")}
               </small>
-              <Link className="flex justify-end " href={`/rooms/${room?._id}`}>
+              <Link className="flex justify-end " href={`/rooms/${room._id}`}>
                 <Button
                   className="flex items-center"
                   color="success"

@@ -3,7 +3,7 @@ import { Card, CardHeader, CardBody } from "@nextui-org/card";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import Link from "next/link";
-import React from "react";
+import React, { Suspense } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -18,8 +18,8 @@ type TLoginInfo = {
 
 const Login = () => {
   const router = useRouter();
-  const searchParams = useSearchParams(); // For accessing URL query parameters
-  const redirect = searchParams.get("redirect"); // Get redirect parameter from UR
+  const searchParams = useSearchParams(); 
+  const redirect = searchParams.get("redirect"); 
 
   const [isVisiblePassword, setIsVisiblePassword] = React.useState(false);
 
@@ -43,18 +43,22 @@ const Login = () => {
       };
       const { data } = await axiosInstance.post(`/auth/login`, dataForBackend);
 
-      console.log(data);
+      // console.log(data);
 
       // Check if the response is successful
 
       if (data.success) {
         localStorage.setItem("token", data?.data?.accessToken);
+
         toast.success("User logged in successfully!");
         // Navigate to the specific room if redirect is set, otherwise to the home page
         if (redirect) {
-          router.push(`/rooms/${redirect}`);
+          router.push(`${redirect}`);
+          setTimeout(()=>{window.location.reload()}, 500)
+          
         } else {
           router.push("/");
+          setTimeout(()=>{window.location.reload()}, 500)
         }
       } else {
         toast.error("User login failed. Please try again");
@@ -141,4 +145,8 @@ const Login = () => {
   );
 };
 
-export default Login;
+const loginWrapper = ()=>{
+  return <Suspense><Login /></Suspense>
+}
+
+export default loginWrapper;

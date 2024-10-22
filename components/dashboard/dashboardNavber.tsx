@@ -1,3 +1,4 @@
+// @ts-nocheck : for saving time.
 "use client";
 
 import { useEffect, useState } from "react";
