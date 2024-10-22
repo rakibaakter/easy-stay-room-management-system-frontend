@@ -10,8 +10,8 @@ This project is a **EasyStay** designed to offer a smooth experience for browsin
 
 - **Home Page**: Includes a hero section with a prominent "Details" button, and a footer.
 - **Room Section**: Displays all rooms in a grid or list view.
-- **Car Details Page**: Shows detailed information about selected cars with booking options.
-- **User Authentication**: Sign up, login, password recovery with real-time validation and error handling.
+- **Room Details Page**: Shows detailed information about selected room with booking options.
+- **User Authentication**: Sign up, login and error handling.
 
 ### User Pages
 
