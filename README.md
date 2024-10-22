@@ -1,53 +1,51 @@
-# Next.js & NextUI Template
+# Easy Stay -Room Booking System
 
-This is a template for creating applications using Next.js 14 (app directory) and NextUI (v2).
+## Overview
 
-[Try it on CodeSandbox](https://githubbox.com/nextui-org/next-app-template)
+This project is a **EasyStay** designed to offer a smooth experience for browsing, booking, and managing rooms. The system includes both customer and admin functionalities, providing a user-friendly interface for room booking services, while allowing administrators to manage inventory and reservations efficiently.
+
+## Features
+
+### Public Pages
+
+- **Home Page**: Includes a hero section with a prominent "Details" button, and a footer.
+- **Room Section**: Displays all rooms in a grid or list view.
+- **Car Details Page**: Shows detailed information about selected cars with booking options.
+- **User Authentication**: Sign up, login, password recovery with real-time validation and error handling.
+
+### User Pages
+
+- **User Dashboard**: View booking history, and cancel booking.
+
+### Admin Pages
+
+- **Admin Dashboard**: Upload room, edit room, delete room, manage user bookings.
+
 
 ## Technologies Used
 
-- [Next.js 14](https://nextjs.org/docs/getting-started)
-- [NextUI v2](https://nextui.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Tailwind Variants](https://tailwind-variants.org)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [next-themes](https://github.com/pacocoursey/next-themes)
+- **Frontend**: Next.Js, TypeScript, Hook-Form, Tailwind CSS, Next UI,
+- **Backend**: Node.js, Express, TypeScript, Mongoose, Bcrypt, Zod and more.
+- **Database**: MongoDB
+- **Authentication**: JWT
+- **Deployment**: Hosted on Vercel
 
-## How to Use
+## Installation
 
-### Use the template with create-next-app
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/rakibaakter/easy-stay-room-management-system-frontend.git
+   cd easy-stay-room-management-system-frontend
+   ```
+2. Install dependencies:
 
-To create a new project based on this template using `create-next-app`, run the following command:
+   ```bash
+   npm install
+   ```
 
-```bash
-npx create-next-app -e https://github.com/nextui-org/next-app-template
+3. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
 ```
-
-### Install dependencies
-
-You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
-
-```bash
-npm install
-```
-
-### Run the development server
-
-```bash
-npm run dev
-```
-
-### Setup pnpm (optional)
-
-If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
-
-```bash
-public-hoist-pattern[]=*@nextui-org/*
-```
-
-After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
-
-## License
-
-Licensed under the [MIT license](https://github.com/nextui-org/next-app-template/blob/main/LICENSE).
