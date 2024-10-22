@@ -53,7 +53,7 @@ const UploadRoom = () => {
       const imgbbAPIKey = process.env.NEXT_PUBLIC_IMAGEBB_API; // Replace with your actual ImgBB API key
       const imgbbResponse = await axios.post(`https://api.imgbb.com/1/upload?key=${imgbbAPIKey}`, imageData);
       
-      console.log(imgbbResponse); // Check the image upload response
+      // console.log(imgbbResponse); 
   
       if (imgbbResponse.data.success) {
         const imageUrl = imgbbResponse.data.data.url;
@@ -68,7 +68,7 @@ const UploadRoom = () => {
             details: formData.details,
             picture: imageUrl,
           }
-          console.log("data for backend", dataForBackend);
+          // console.log("data for backend", dataForBackend);
           
         const response = await axiosInstance.post("/rooms/create-room", dataForBackend);
   

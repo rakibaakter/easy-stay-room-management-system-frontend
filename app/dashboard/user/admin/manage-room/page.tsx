@@ -17,27 +17,27 @@ import Swal from "sweetalert2";
 
 import axiosInstance from "@/lib/axiosInstance";
 
-const MyBookings = () => {
-  const [bookingList, setBookingList] = useState([]);
+const ManageRoom = () => {
+    const [allRooms, setAllRooms] = useState([]);
 
   useEffect(() => {
-    const fetchBookings = async () => {
+    const fetchRooms = async () => {
       try {
-        const { data } = await axiosInstance.get("/bookings/my-bookings");
+        const { data } = await axiosInstance.get("/rooms");
 
-        setBookingList(data.data);
+        setAllRooms(data.data);
       } catch (error) {
-        console.log("Failed to fetch bookings:", error);
+        console.log("Failed to fetch room:", error);
       }
     };
 
-    fetchBookings();
+    fetchRooms();
   }, []);
 
-  const handleDeleteBooking = async (id) => {
+  const handleDeleteRoom = async (id) => {
     try {
       Swal.fire({
-        title: "Do you want to cancel the request?",
+        title: "Do you want to delete the room?",
         background: "#333",
         color: "#fff",
         showDenyButton: true,
@@ -45,24 +45,24 @@ const MyBookings = () => {
         denyButtonText: `No`,
       }).then(async (result) => {
         if (result.isConfirmed) {
-          const response = await axiosInstance.delete(`/bookings/${id}`);
+          const response = await axiosInstance.delete(`/rooms/${id}`);
           if (response.data.success) {
             Swal.fire({
               background: "#333",
               color: "#fff",
-              title: "Your booking has been cancelled successfully!",
+              title: "Your Room has been cancelled successfully!",
               icon: "success",
             });
 
-            // Remove the cancelled booking from the state
-            setBookingList((prevList) =>
-              prevList.filter((booking) => booking._id !== id)
+            // Remove the cancelled room from the state
+            setAllRooms((prevList) =>
+              prevList.filter((room) => room._id !== id)
             );
           }
         }
       });
     } catch (error) {
-      console.log("Failed to cancel booking:", error);
+      console.log("Failed to cancel room:", error);
     }
   };
 
@@ -80,68 +80,50 @@ const MyBookings = () => {
       label: "Rent",
     },
     {
-      key: "checkInDate",
-      label: "Check In",
-    },
-    {
-      key: "checkOutDate",
-      label: "Check Out",
-    },
-    {
-      key: "status",
-      label: "STATUS",
-    },
-    {
       key: "action",
       label: "Action",
     },
   ];
 
-  return (
-    <div className="my-4">
-      <h2 className="mb-4 text-xl font-semibold">Manage Bookings</h2>
+    return (
+        <div className="my-4">
+      <h2 className="mb-4 text-xl font-semibold">Manage Room</h2>
       <Table aria-label="Bookings Table">
         <TableHeader columns={columns}>
           {(column) => (
             <TableColumn key={column.key}>{column.label}</TableColumn>
           )}
         </TableHeader>
-        <TableBody items={bookingList}>
-          {(item) => (
-            <TableRow key={item?._id}>
+        <TableBody items={allRooms}>
+          {(room) => (
+            <TableRow key={room._id}>
               <TableCell>
                 <Avatar
                   isBordered
                   radius="sm"
                   size="lg"
-                  src={item?.room?.picture}
+                  src={room?.picture}
                 />
               </TableCell>
-              <TableCell>{item?.room?.title}</TableCell>
-              <TableCell>{"$"}{item?.room?.rent}</TableCell>
+              <TableCell>{room?.title}</TableCell>
+              <TableCell>{"$"}{room?.rent}</TableCell>
               <TableCell>
-                {dayjs(item?.checkInDate).format("YYYY-MM-DD")}
-              </TableCell>
-              <TableCell>
-                {dayjs(item?.checkOutDate).format("YYYY-MM-DD")}
-              </TableCell>
-              <TableCell>
-                <Chip variant="faded">
-                  {item?.status.charAt(0).toUpperCase() + item?.status.slice(1)}
-                </Chip>
-              </TableCell>
-              <TableCell>
-                <Link href={`/rooms/${item?.room?._id}`}>
+                <Link href={`/rooms/${room?._id}`}>
+                  <Button color="success" variant="light">
+                    View
+                  </Button>
+                </Link>
+                <Link href={`/dashboard/user/admin/edit-room/${room?._id}`}>
                   <Button color="primary" variant="light">
-                    Details
+                    Edit
                   </Button>
                 </Link>
                 <Button
-                  onClick={() => handleDeleteBooking(item._id)}
+                  onClick={() => handleDeleteRoom(room._id)}
                   color="danger"
                   variant="light"
                 >
-                  Cancel
+                  Delete
                 </Button>
               </TableCell>
             </TableRow>
@@ -149,7 +131,7 @@ const MyBookings = () => {
         </TableBody>
       </Table>
     </div>
-  );
+    );
 };
 
-export default MyBookings;
+export default ManageRoom;
