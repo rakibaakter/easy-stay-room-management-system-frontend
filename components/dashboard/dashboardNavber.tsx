@@ -20,25 +20,49 @@ const DashboardNavber = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const data = await getLoggedInUser(decodedUser?.id);
-
       setUser(data);
     };
 
     fetchUser();
   }, [decodedUser]);
 
+  console.log(user);
+  
+
   return (
     <div>
-      <h1 className="mt-8 text-3xl font-bold">{user?.fullName}</h1>
+      <h1 className="mt-6 text-3xl font-bold">{user?.fullName}</h1>
       <Navbar isBordered isBlurred={false}>
-        <NavbarContent className="" justify="end">
-          <NavbarItem>
-            <Link color="foreground" href="/dashboard/user/my-bookings">
-              My Bookings
-            </Link>
-          </NavbarItem>
-        </NavbarContent>
-       
+        {user?.role === "admin" ? (
+          <NavbarContent justify="end">
+            <NavbarItem>
+              <Link color="foreground" href="/dashboard/user/admin/upload-room">
+                Upload Room
+              </Link>
+            </NavbarItem>
+            <NavbarItem>
+              <Link color="foreground" href="/dashboard/user/admin/manage-room">
+                Manage Room
+              </Link>
+            </NavbarItem>
+            <NavbarItem>
+              <Link
+                color="foreground"
+                href="/dashboard/user/admin/manage-bookings"
+              >
+                Manage Bookings
+              </Link>
+            </NavbarItem>
+          </NavbarContent>
+        ) : (
+          <NavbarContent justify="end">
+            <NavbarItem>
+              <Link color="foreground" href="/dashboard/user/user/my-bookings">
+                My Bookings
+              </Link>
+            </NavbarItem>
+          </NavbarContent>
+        )}
       </Navbar>
     </div>
   );

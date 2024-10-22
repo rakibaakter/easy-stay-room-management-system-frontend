@@ -33,7 +33,7 @@ export const Navbar = () => {
   }, [decodedUser]);
 
   // const user = getLoggedInUser(decodedUser?.id);
-  // console.log(user);
+  console.log(user);
 
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
