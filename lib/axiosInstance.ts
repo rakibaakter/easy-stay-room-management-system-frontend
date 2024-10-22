@@ -13,7 +13,7 @@ axiosInstance.interceptors.request.use(
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
 
-      console.log(token);
+      // console.log(token);
 
       if (token) {
         config.headers["Authorization"] = token;

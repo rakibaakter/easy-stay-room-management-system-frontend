@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Card, CardHeader, CardBody } from "@nextui-org/react";
 import { Button } from "@nextui-org/button";
 import Link from "next/link";
-import { MdKeyboardDoubleArrowRight } from "react-icons/md";
+import { GoArrowRight } from "react-icons/go";
 
 import axiosInstance from "@/lib/axiosInstance";
 import { TRoomResponse } from "@/types/room.response.types";
@@ -72,13 +72,14 @@ const RoomSection = () => {
               <small className="text-default-500">
                 Facilities: {room?.facilities.join(", ")}
               </small>
-              <Link className="flex justify-end " href="/">
+              <Link className="flex justify-end " href={`/rooms/${room?._id}`}>
                 <Button
                   className="flex items-center"
                   color="success"
                   variant="light"
                 >
-                  <p>Details</p> <MdKeyboardDoubleArrowRight />
+                  <p>Details</p> 
+                  <GoArrowRight className="mt-1"/>
                 </Button>
               </Link>
             </CardBody>
