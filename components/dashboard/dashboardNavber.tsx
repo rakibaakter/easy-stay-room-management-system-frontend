@@ -37,11 +37,6 @@ const DashboardNavber = () => {
               My Bookings
             </Link>
           </NavbarItem>
-          <NavbarItem >
-            <Link color="foreground" href="#">
-              Profile
-            </Link>
-          </NavbarItem>
         </NavbarContent>
        
       </Navbar>

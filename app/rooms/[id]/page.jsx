@@ -157,7 +157,7 @@ const RoomDetails = ({ params }) => {
                         variant="flat"
                         onClick={handleOpenBookingModal}
                       >
-                        Book Now
+                        Confirm Booking
                       </Button>
                     </div>
                   ) : (

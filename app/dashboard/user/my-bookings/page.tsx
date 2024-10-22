@@ -12,6 +12,8 @@ import {
 } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs"; // Use to format dates
+import Link from "next/link";
+import Swal from "sweetalert2";
 
 import axiosInstance from "@/lib/axiosInstance";
 
@@ -25,12 +27,44 @@ const MyBookings = () => {
 
         setBookingList(data.data);
       } catch (error) {
-        console.error("Failed to fetch bookings:", error);
+        console.log("Failed to fetch bookings:", error);
       }
     };
 
     fetchBookings();
   }, []);
+
+  const handleDeleteBooking = async (id) => {
+    try {
+      Swal.fire({
+        title: "Do you want to cancel the request?",
+        background: "#333",
+        color: "#fff",
+        showDenyButton: true,
+        confirmButtonText: "Yes",
+        denyButtonText: `No`,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const response = await axiosInstance.delete(`/bookings/${id}`);
+          if (response.data.success) {
+            Swal.fire({
+              background: "#333",
+              color: "#fff",
+              title: "Your booking has been cancelled successfully!",
+              icon: "success",
+            });
+
+            // Remove the cancelled booking from the state
+            setBookingList((prevList) =>
+              prevList.filter((booking) => booking._id !== id)
+            );
+          }
+        }
+      });
+    } catch (error) {
+      console.log("Failed to cancel booking:", error);
+    }
+  };
 
   const columns = [
     {
@@ -75,20 +109,40 @@ const MyBookings = () => {
         <TableBody items={bookingList}>
           {(item) => (
             <TableRow key={item?._id}>
-              <TableCell><Avatar isBordered radius="sm" size="lg" src={item?.room?.picture}/></TableCell> 
-              <TableCell>{item?.room?.title}</TableCell> 
-              <TableCell>{`${item?.room?.rent}`}</TableCell> 
+              <TableCell>
+                <Avatar
+                  isBordered
+                  radius="sm"
+                  size="lg"
+                  src={item?.room?.picture}
+                />
+              </TableCell>
+              <TableCell>{item?.room?.title}</TableCell>
+              <TableCell>{`${item?.room?.rent}`}</TableCell>
               <TableCell>
                 {dayjs(item?.checkInDate).format("YYYY-MM-DD")}
-                {/* Check-In Date */}
               </TableCell>
               <TableCell>
                 {dayjs(item?.checkOutDate).format("YYYY-MM-DD")}
-                {/* Check-Out Date */}
               </TableCell>
-              <TableCell><Chip variant="faded">{item?.status.charAt(0).toUpperCase() + item?.status.slice(1)}</Chip></TableCell>
               <TableCell>
-                <Button variant="light" color="danger">Cancel</Button> 
+                <Chip variant="faded">
+                  {item?.status.charAt(0).toUpperCase() + item?.status.slice(1)}
+                </Chip>
+              </TableCell>
+              <TableCell>
+                <Link href={`/rooms/${item?.room?._id}`}>
+                  <Button color="primary" variant="light">
+                    Details
+                  </Button>
+                </Link>
+                <Button
+                  onClick={() => handleDeleteBooking(item._id)}
+                  color="danger"
+                  variant="light"
+                >
+                  Cancel
+                </Button>
               </TableCell>
             </TableRow>
           )}
