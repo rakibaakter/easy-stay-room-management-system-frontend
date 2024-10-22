@@ -2,12 +2,17 @@
 import { useState, useEffect } from "react";
 import React from "react";
 import { Button, Card, CardBody, Chip, Image } from "@nextui-org/react";
+import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
 import getRoomById from "@/utils/getRoomById";
-
+import useAuth from "@/hooks/useAuth";
 const RoomDetails = ({ params }) => {
   const [room, setRoom] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+  const decodedUser = useAuth();
   const { id } = params;
+  const router = useRouter();
 
   useEffect(() => {
     const fetchRoom = async () => {
@@ -19,7 +24,30 @@ const RoomDetails = ({ params }) => {
     fetchRoom();
   }, [id]);
 
-  console.log(room);
+  const handleOpenBookingModal = () => {
+    if (!decodedUser) {
+      // Only push to login if room ID is available
+      if (room?._id) {
+        router.push(`/auth/login?redirect=${room._id}`);
+      } else {
+        // Handle case when room data hasn't loaded yet
+        console.log("Room data is not loaded yet");
+      }
+
+      return;
+    }
+    switch (decodedUser?.role) {
+      case "admin":
+        Swal.fire({
+          icon: "info",
+          title: "Admin Cannot Book Any Room",
+        });
+        break;
+      default:
+        setOpenModal(true);
+        break;
+    }
+  };
 
   return (
     <div>
@@ -75,7 +103,12 @@ const RoomDetails = ({ params }) => {
 
                   {room?.status === "available" ? (
                     <div className="flex flex-wrap gap-4 mt-8">
-                      <Button className="w-full" color="success" variant="flat">
+                      <Button
+                        className="w-full"
+                        color="success"
+                        variant="flat"
+                        onClick={handleOpenBookingModal}
+                      >
                         Book Now
                       </Button>
                     </div>
@@ -95,6 +128,10 @@ const RoomDetails = ({ params }) => {
           </div>
         </CardBody>
       </Card>
+
+      {/* {
+        openModal && 
+      } */}
     </div>
   );
 };

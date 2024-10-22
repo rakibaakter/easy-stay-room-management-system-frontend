@@ -6,7 +6,7 @@ import Link from "next/link";
 import React from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast, Toaster } from "sonner";
 
 import axiosInstance from "@/lib/axiosInstance";
@@ -18,6 +18,8 @@ type TLoginInfo = {
 
 const Login = () => {
   const router = useRouter();
+  const searchParams = useSearchParams(); // For accessing URL query parameters
+  const redirect = searchParams.get("redirect"); // Get redirect parameter from UR
 
   const [isVisiblePassword, setIsVisiblePassword] = React.useState(false);
 
@@ -48,7 +50,12 @@ const Login = () => {
       if (data.success) {
         localStorage.setItem("token", data?.data?.accessToken);
         toast.success("User logged in successfully!");
-        await router.push("/");
+        // Navigate to the specific room if redirect is set, otherwise to the home page
+        if (redirect) {
+          router.push(`/rooms/${redirect}`);
+        } else {
+          router.push("/");
+        }
       } else {
         toast.error("User login failed. Please try again");
       }
