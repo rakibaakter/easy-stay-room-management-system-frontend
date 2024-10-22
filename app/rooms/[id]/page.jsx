@@ -112,7 +112,6 @@ const RoomDetails = ({ params }) => {
               <Image
                 alt={room?.title}
                 className="object-cover"
-                height={400}
                 shadow="md"
                 src={room?.picture}
                 width="100%"
