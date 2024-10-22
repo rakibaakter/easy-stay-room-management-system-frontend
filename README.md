@@ -24,8 +24,7 @@ This project is a **EasyStay** designed to offer a smooth experience for browsin
 
 ## Technologies Used
 
-- **Frontend**: Next.Js, TypeScript, Hook-Form, Tailwind CSS, Next UI,
-- **Backend**: Node.js, Express, TypeScript, Mongoose, Bcrypt, Zod and more.
+-  Next.Js, TypeScript, Hook-Form, Tailwind CSS, Next UI
 - **Database**: MongoDB
 - **Authentication**: JWT
 - **Deployment**: Hosted on Vercel
