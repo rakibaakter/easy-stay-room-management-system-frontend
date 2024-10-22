@@ -33,7 +33,7 @@ export const Navbar = () => {
   }, [decodedUser]);
 
   // const user = getLoggedInUser(decodedUser?.id);
-  console.log(user);
+  // console.log(user);
 
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
@@ -67,6 +67,8 @@ export const Navbar = () => {
               aria-label="Action event example" 
               onAction={(key) => alert(key)}
             >
+              {/* <DropdownItem><Link href="/dashboard/use/profile">Profile</Link></DropdownItem> */}
+              
               <DropdownItem><Link href="/dashboard">Dashboard</Link></DropdownItem>
               <DropdownItem>
               <Button variant="light" color="danger" onClick={() => logout()}>
